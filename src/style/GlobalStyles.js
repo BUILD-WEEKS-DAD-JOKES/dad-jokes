@@ -1,21 +1,27 @@
 import styled from 'styled-components'
 
 export const Form = styled.form`
+position:fixed;
+right:200px;
 display:flex;
 flex-flow:row wrap;
 margin:0 auto;
 margin-top:10%;
-justify-content:center;
+justify-content:flex-end;
 width:70%;
 padding:1rem;
 background:whitesmoke;
 border-radius:10px;
-box-shadow:4px 4px 4px  rgba(100,100,100,.2);
-h1{
+box-shadow:100px 100px 1000px  rgba(100,100,100,.4),
+-100px -100px 1000px  rgba(100,100,100,.4);
+
+
+`
+export const FormHeader = styled.h1`
     padding:1rem;
     text-align:center;
     width:100%;
-}
+    color:#34b6e1;
 `
 export const Input = styled.input`
 border:none;
@@ -26,12 +32,25 @@ color:slategrey;
 margin:5px;
 width:100%;
 `
+
+export const Checkbox = styled.input`
+    align-self:center;
+`
 export const Label = styled.label`
 display:flex;
-width:80%;
+width:100%;
 p{
     width:10%;
 }
+`
+export const CloseButton = styled.i`
+    color:lightgrey;
+    text-align:right;
+    font-size:1rem;
+    padding:10px;
+    &:hover{
+        color:grey;
+    }
 `
 export const Button = styled.button`
 background:#34b6e1;

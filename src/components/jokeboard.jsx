@@ -1,30 +1,40 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import AxiosWithAuth from '../util/AxiosWithAuth'
 import JokeCard from './jokecard'
-const JokeBoard = ()=>{
-    const [jokes, setJokes] = useState([])
+import { TimelineMax,TweenMax,Power1 } from 'gsap/gsap-core'
 
-    const getJokes = ()=>{
+const JokeBoard = () => {
+    const [jokes, setJokes] = useState([])
+    const getJokes = () => {
         AxiosWithAuth().get('/jokes/all')
-        .then(res=>{
-            setJokes(res.data)
-        }).catch((err)=>{
-            alert(JSON.stringify(err))
-        })
+            .then(res => {
+                setJokes(res.data)
+            }).catch((err) => {
+                alert(JSON.stringify(err), 'here boss...')
+            })
 
     }
-    useEffect(()=>{
+    useEffect(() => {
         getJokes()
+       
     }, [])
+ 
+
+    if(jokes.length> 0)
     return (
         <>
-        {jokes.map(
-            joke=>{
-                return <JokeCard key={joke.id} joke={joke} />
+            {jokes.map(
+                joke => {
+                    return <JokeCard  key={joke.id} joke={joke} />
+                }
+            )
             }
-        )
-        }
+        </>
+    )
+    else return(
+        <>
+        <h1>Loading...</h1>
         </>
     )
 }

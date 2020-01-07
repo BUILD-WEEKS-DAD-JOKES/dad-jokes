@@ -15,7 +15,7 @@ function App() {
       <Route path='/' component={Navigation} />
       <Route path='/login' component={Login} />
       <Route path='/register' component={Register} />
-      <Route path='/new-joke' component={JokeForm} />
+      <Route path='/joke-board/new-joke' component={JokeForm} />
       <Route exact path='/' component={Landing} />
       <Route exact path='/joke-board' component={NewJokeButton} />
       <PrivateRoute path='/joke-board' component={JokeBoard} />

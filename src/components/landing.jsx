@@ -16,6 +16,7 @@ const Landing = () => {
     useEffect(() => {
         getJokes()
     }, [])
+    if(jokes.length> 0)
     return (
         <>
             {jokes.map(
@@ -24,6 +25,11 @@ const Landing = () => {
                 }
             )
             }
+        </>
+    )
+    else return(
+        <>
+        <h1>Loading...</h1>
         </>
     )
 }

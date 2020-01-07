@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import { Card, CardButton, CardHeader, Answer, Chatter } from '../style/GlobalStyles'
+import { TimelineMax, Elastic } from 'gsap/gsap-core'
+import { TweenMax } from 'gsap/gsap-core'
 const JokeCard = props => {
     const [open, setOpen] = useState(false)
     const [upActive, setUpActive] = useState(false)
@@ -9,16 +11,25 @@ const JokeCard = props => {
         console.log('toggle')
         cb(!val)
     }
-    useEffect(()=>{
-        if(upActive === true){
+    useEffect(() => {
+        if (upActive === true) {
             setdownActive(false)
         }
-        else if(downActive){
+        else if (downActive) {
             setUpActive(false)
         }
     }, [upActive, downActive])
+
+    let cardRef = useRef(null)
+    const tl = new TimelineMax()
+
+    useEffect(() => {
+        tl.add(
+            TweenMax.from(cardRef, 1, { opacity: 0, x: '-100%', ease: Elastic.easeOut.config(1, 1) })
+        )
+    }, [])
     return (
-        <Card>
+        <Card ref={el => cardRef = el}>
             <CardHeader>{props.joke.question}</CardHeader>
             <Chatter>
                 <i onClick={() => {

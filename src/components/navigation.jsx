@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import logo from '../media/logo.svg'
 const Navigation = () => {
-    const [isLoggedIn, setLoggedIn] = useState(false)
     const Nav = styled.div`
         display:flex;
         align-items:center;
@@ -28,9 +27,18 @@ const Navigation = () => {
     }
     return (
         <Nav>
-            <Link to='/'>
-                <img src={logo} />
-            </Link>
+            {
+                !token ? (
+                    <Link to='/'>
+                        <img src={logo} />
+                    </Link>
+
+                ) :(
+                    <Link to='/joke-board'>
+                        <img src={logo} />
+                    </Link>
+                )
+            }
             {
                 !token ? (
 
