@@ -9,6 +9,10 @@ import Register from './components/register'
 import JokeBoard from './components/jokeboard'
 import NewJokeButton from './components/sub/newJokeButton'
 import JokeForm from './components/jokeform'
+import CSSPlugin from 'gsap/CSSPlugin'
+
+const C = CSSPlugin
+
 function App() {
   return (
     <div className="App">

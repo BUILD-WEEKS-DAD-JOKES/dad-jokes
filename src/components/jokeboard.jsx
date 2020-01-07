@@ -26,7 +26,8 @@ const JokeBoard = () => {
         <>
             {jokes.map(
                 joke => {
-                    return <JokeCard  key={joke.id} joke={joke} />
+                    return <JokeCard id={joke.joke_owner} key={joke.id} joke={joke} />
+
                 }
             )
             }

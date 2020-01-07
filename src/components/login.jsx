@@ -1,30 +1,23 @@
-import React, { useRef, useEffect, createRef } from 'react'
-import styled from 'styled-components'
-import axios from 'axios'
+import React, { useRef, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Form, Input, Label, Button, FormHeader } from '../style/GlobalStyles'
 import { TimelineMax, Power1, TweenMax, Elastic } from 'gsap'
+import { connect } from 'react-redux'
+import { loginUser } from '../store/actions'
+
 const Login = (props) => {
     const { register, handleSubmit } = useForm()
     //--Logic 
     const onSubmit = (data) => {
-        axios.post('https://dad-jokes--api.herokuapp.com/auth/login', data)
-            .then(res => {
-                if (res.status === 200) {
-                    const token = res.data.token
-                    if (!token) {
-                        alert('something when wrong authenticating...')
-                    } else {
-                        localStorage.setItem('token', token)
-                        props.history.push('/joke-board')
-                    }
-                } else {
-                    alert('sorry.. somethings wrong.. try again in a little bit..')
-                }
-            }).catch((err) => {
-                alert(JSON.stringify({ messege: 'sorry something looks to be wrong here... ', err }))
-            })
+    
+        props.loginUser(data)
+        setTimeout(()=>{
+            props.history.push('/joke-board')
+            alert('user_id:'+props.user_id)
+        }, 1000)
+        
     }
+
 
     let formRef = useRef(null)
     const tl = new TimelineMax()
@@ -37,7 +30,7 @@ const Login = (props) => {
                     opacity: 0,
                     width: 0,
                     height: 0,
-                    ease:Elastic.easeOut.config(1.1, 1)
+                    ease: Elastic.easeOut.config(1.1, 1)
                 }
             ))
         tl.add(
@@ -52,7 +45,7 @@ const Login = (props) => {
                 {
                     opacity: 0,
                     x: -100,
-                    ease:Elastic.easeOut.config(1.1, 0.4)
+                    ease: Elastic.easeOut.config(1.1, 0.4)
                 }
             ))
         tl.add(
@@ -60,10 +53,12 @@ const Login = (props) => {
                 {
                     opacity: 0,
                     x: -100,
-                    ease:Elastic.easeOut.config(1.1, 0.4)
+                    ease: Elastic.easeOut.config(1.1, 0.4)
                 }
             ))
     }, [])
+
+
     return (
         <Form onSubmit={handleSubmit(onSubmit)} ref={el => formRef = el}>
             <FormHeader>Login</FormHeader>
@@ -79,5 +74,10 @@ const Login = (props) => {
         </Form>
     )
 }
-
-export default Login
+const mapStateToProps = (state) => {
+    return {
+        isLoggedIn: state.logReducer.isLoggedIn,
+        user_id:state.logReducer.user_id
+    }
+}
+export default connect(mapStateToProps, { loginUser })(Login)

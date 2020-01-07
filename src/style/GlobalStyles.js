@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Form = styled.form`
+z-index:3;
 position:fixed;
 right:200px;
 display:flex;
@@ -16,6 +17,12 @@ box-shadow:100px 100px 1000px  rgba(100,100,100,.4),
 -100px -100px 1000px  rgba(100,100,100,.4);
 
 
+`
+export const Icon = styled.i`
+    margin:5px;
+    background:whitesmoke;
+    padding:1rem;
+    color:lightgrey;
 `
 export const FormHeader = styled.h1`
     padding:1rem;
@@ -75,44 +82,36 @@ flex-flow:row wrap;
 width:80%;
 background:white;
 justify-content:flex-end;
+border-radius:10px;
+padding:10px;
 .answer.closed{
     display:none;
 }
 `
-export const Chatter = styled.div`
-    display:flex;
-    flex-flow:column;
-    justify-content:flex-end;
-    width:4%;
-    i{
-        margin:5px;
-        background:whitesmoke;
-        padding:1rem;
-        color:lightgrey;
-
-    }
-    i.fa-thumbs-up:hover{
-        color:green;
-    }
-    i.fa-thumbs-down:hover{
-        color:red;
-    }
-    i.fa-thumbs-up.active{
-        color:green;
-    }
-    i.fa-thumbs-down.active{
-        color:red;
-    }
+export const OwnedCard = styled.div`
+display:flex;
+justify-content:space-between;
+width:100%;
 `
 export const CardHeader = styled.h1`
-    width:90%;
+width:100%;
+
     font-size:1.3rem;
 `
+export const CardButtons = styled.div`
+    display:flex;
+    flex-flow:row;
+    justify-content:flex-end;
+    width:20%;
+
+`
+
 export const CardButton = styled.button`
     background:#34b6e1;
     border:none;
     color:white;
     padding:1rem;
+    margin:5px;
     font-size:1rem;
 `
 export const Answer = styled.p`
