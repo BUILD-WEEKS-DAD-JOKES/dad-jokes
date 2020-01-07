@@ -12,7 +12,7 @@ const JokeCard = props => {
     const toggle = (val, cb) => {
         cb(!val)
     }
-    
+
     const handleDelete = (e) => {
         var _del = window.confirm(`Are you sure you want to Delete this?`)
         if (_del) {
@@ -28,22 +28,28 @@ const JokeCard = props => {
     }
 
     const checkOwner = () => {
-        const decoded = jwt_decode(localStorage.getItem('token'))
-        console.log(decoded.subject)
-
-        if(decoded.subject && props.id === decoded.subject){
-            return (
-                <OwnedCard>
-                    <CardHeader>{props.joke.question}</CardHeader>
-                    <CloseButton id={props.joke.id} onClick={handleDelete} className={`fas fa-edit`} />
-                    <CloseButton id={props.joke.id} onClick={handleDelete} className={`fas fa-times`} />
-                </OwnedCard>
-                )      
-        }else{
-            return   <CardHeader>{props.joke.question}</CardHeader>
+        if (!props.public) {
+            try {
+                const decoded = jwt_decode(localStorage.getItem('token'))
+                if (props.id === decoded.subject) {
+                    return (
+                        <OwnedCard>
+                            <CardHeader>{props.joke.question}</CardHeader>
+                            <CloseButton id={props.joke.id} onClick={handleDelete} className={`fas fa-edit`} />
+                            <CloseButton id={props.joke.id} onClick={handleDelete} className={`fas fa-times`} />
+                        </OwnedCard>
+                    )
+                }else{
+                    return <CardHeader>{props.joke.question}</CardHeader>
+                }
+            }catch{
+                alert('an error has occoured.. try again in a little bit..')
+            }
+        } else {
+            return <CardHeader>{props.joke.question}</CardHeader>
         }
- 
-          
+
+
     }
 
     //#region GSAP
@@ -62,7 +68,7 @@ const JokeCard = props => {
 
     }, [])
     //#endregion
-    
+
     return (
         <Card ref={el => cardRef = el}>
             {checkOwner()}
