@@ -13,7 +13,6 @@ const Login = (props) => {
         props.loginUser(data)
         setTimeout(()=>{
             props.history.push('/joke-board')
-            alert('user_id:'+props.user_id)
         }, 1000)
         
     }
@@ -76,8 +75,7 @@ const Login = (props) => {
 }
 const mapStateToProps = (state) => {
     return {
-        isLoggedIn: state.logReducer.isLoggedIn,
-        user_id:state.logReducer.user_id
+        isLoggedIn: state.logReducer.isLoggedIn
     }
 }
 export default connect(mapStateToProps, { loginUser })(Login)

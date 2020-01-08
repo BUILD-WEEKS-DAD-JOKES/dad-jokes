@@ -8,7 +8,9 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk';
 import { rootReducer } from './store/reducers/rootReducer'
 import logger from 'redux-logger';
+
 const store = createStore(rootReducer, applyMiddleware(thunk, logger))
+
 ReactDOM.render(
     <BrowserRouter>
         <Provider store={store}>

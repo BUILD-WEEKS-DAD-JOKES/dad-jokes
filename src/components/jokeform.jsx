@@ -1,38 +1,23 @@
 import React, { useRef, useEffect, createRef } from 'react'
-import styled from 'styled-components'
-import axios from 'axios'
+import { connect } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import jwt_decode from 'jwt-decode'
 import AxiosWithAuth from '../util/AxiosWithAuth'
 import { Link } from 'react-router-dom'
 import { Form, Input, Label, Button, CloseButton, Checkbox, FormHeader } from '../style/GlobalStyles'
 import { TimelineMax, Power1, TweenMax, Elastic } from 'gsap'
-
-const JokeForm = (props) => {
+import { addJoke } from '../store/actions'
+const JokeForm = ({addJoke, history, data}) => {
     const { register, handleSubmit } = useForm()
     //--Logic 
     const onSubmit = (data) => {
-        //have to pass in the current logged in user...
-        const decoded = jwt_decode(localStorage.getItem('token'))
-        if (!decoded) {
-            console.log('sorry but you cant be authenticated....')
-        } else {
-            console.log(decoded.subject)
-            console.log(data)
-            AxiosWithAuth().post(`/jokes/${decoded.subject}`, data)
-                .then(res => {
-                    if (res.status === 201) {
-                        // rerender = true
-                        props.history.push('/joke-board')
-                        props.history.go('/joke-board')
-                    } else {
-                        alert('sorry.. somethings wrong.. try again in a little bit..')
-                    }
-                }).catch((err) => {
-                    alert(JSON.stringify({ messege: 'sorry something looks to be wrong here... ', err, mw: 'im here boss...' }))
-                })
-        }
+        const logged_in_user = localStorage.getItem('logged_in_user')
+        addJoke(logged_in_user, data)
+        history.push('/joke-board')
     }
+
+    //#region GSAP
+
     let formRef = useRef(null)
     const tl = new TimelineMax()
     useEffect(() => {
@@ -44,7 +29,7 @@ const JokeForm = (props) => {
                     opacity: 0,
                     width: 0,
                     height: 0,
-                    ease:Elastic.easeOut.config(1.1, 1)
+                    ease: Elastic.easeOut.config(1.1, 1)
                 }
             ))
         tl.add(
@@ -59,7 +44,7 @@ const JokeForm = (props) => {
                 {
                     opacity: 0,
                     x: -100,
-                    ease:Elastic.easeOut.config(1.1, 0.4)
+                    ease: Elastic.easeOut.config(1.1, 0.4)
                 }
             ))
         tl.add(
@@ -67,12 +52,22 @@ const JokeForm = (props) => {
                 {
                     opacity: 0,
                     x: -100,
-                    ease:Elastic.easeOut.config(1.1, 0.4)
+                    ease: Elastic.easeOut.config(1.1, 0.4)
+                }
+            ))
+        tl.add(
+            TweenMax.from('.public-text', .8,
+                {
+                    opacity: 0,
+                    ease: Elastic.easeOut.config(1.1, 0.4)
                 }
             ))
     }, [])
+
+    //#endregion
+
     return (
-        <Form onSubmit={handleSubmit(onSubmit)} ref={el=> formRef = el}>
+        <Form onSubmit={handleSubmit(onSubmit)} ref={el => formRef = el}>
 
             <Link to='/joke-board'>
                 <CloseButton className="fas fa-times" />
@@ -90,10 +85,16 @@ const JokeForm = (props) => {
                 <p>public:</p>
                 <Checkbox type='checkbox' name='public' ref={register} />
             </Label>
-            <p> by selecting public you allow all other users to see what you are saying.. olease be modest with public questions and remember children may see this at any point. thank you!</p>
+            <p className='public-text'> by selecting public you allow all other users to see what you are saying.. Please be modest with public questions and remember children may see this at any point. thank you!</p>
             <Button className='x' type='submit'>Send to the Community!</Button>
         </Form>
     )
 }
-
-export default JokeForm
+const _props = (store) => {
+    return {
+       
+    }
+}
+export default connect(_props, {
+    addJoke
+})(JokeForm)

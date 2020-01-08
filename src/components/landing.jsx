@@ -1,37 +1,40 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useEffect } from 'react'
 import JokeCard from './jokecard'
-const Landing = () => {
-    const [jokes, setJokes] = useState([])
+import { connect } from 'react-redux'
+import { getData } from '../store/actions'
+import { LoadingBar } from '../style/GlobalStyles'
+import Loader from 'react-loader-spinner'
 
-    const getJokes = () => {
-        axios.get('https://dad-jokes--api.herokuapp.com/api/jokes')
-            .then(res => {
-                setJokes(res.data)
-            }).catch((err) => {
-                alert(JSON.stringify(err))
-            })
+const Landing = ({data, getData}) => {
 
-    }
+    const { jokes, isFetching } = data
+
     useEffect(() => {
-        getJokes()
+        getData(false)
     }, [])
-    if(jokes.length> 0)
+
+    if (isFetching) 
+        return (
+        <LoadingBar>
+            <Loader type='Bars' color='#34b6e1' height='200px' width='200px' />
+        </LoadingBar>
+    )
     return (
         <>
             {jokes.map(
                 joke => {
-                    return <JokeCard id={joke.joke_owner} public={true} key={joke.id} joke={joke} />
-                }
-            )
+                    return <JokeCard id={joke.joke_owner} isPublic={true} key={joke.id} joke={joke} />
+                }).reverse()
             }
-        </>
-    )
-    else return(
-        <>
-        <h1>Loading...</h1>
         </>
     )
 }
 
-export default Landing
+const _props = (state) => {
+    return {
+        data: state.dataReducer
+    }
+}
+export default connect(_props, {
+    getData
+})(Landing)

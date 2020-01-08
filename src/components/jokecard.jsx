@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react'
 
-import { Card, CardButton, CardHeader, Answer, Chatter } from '../style/GlobalStyles'
+import { Card, CardButton, CardHeader, Answer, Chatter, LoadingBar } from '../style/GlobalStyles'
 import { TimelineMax, Elastic } from 'gsap/gsap-core'
 import { TweenMax } from 'gsap/gsap-core'
 import { Icon, CardButtons, CloseButton, OwnedCard } from '../style/GlobalStyles'
-import jwt_decode from 'jwt-decode';
-import AxiosWithAuth from '../util/AxiosWithAuth'
-const JokeCard = props => {
+import { connect } from 'react-redux'
+import { deleteJoke, saveJoke } from '../store/actions'
+import ChatterButton from './sub/ChatterButton'
+
+const JokeCard = ({ isPublic, joke_owner, joke, deleteJoke, saveJoke }) => {
+
     const [open, setOpen] = useState(false)
 
     const toggle = (val, cb) => {
@@ -16,37 +19,31 @@ const JokeCard = props => {
     const handleDelete = (e) => {
         var _del = window.confirm(`Are you sure you want to Delete this?`)
         if (_del) {
-            AxiosWithAuth().delete(`/jokes/${e.target.id}`).then((res) => {
-                console.log(res.data)
-
-            }).catch((_err) => {
-                console.log(_err)
-            })
+            deleteJoke(e)
         } else {
-            return;
+            return
         }
     }
 
-    const checkOwner = () => {
-        if (!props.public) {
-            try {
-                const decoded = jwt_decode(localStorage.getItem('token'))
-                if (props.id === decoded.subject) {
-                    return (
-                        <OwnedCard>
-                            <CardHeader>{props.joke.question}</CardHeader>
-                            <CloseButton id={props.joke.id} onClick={handleDelete} className={`fas fa-edit`} />
-                            <CloseButton id={props.joke.id} onClick={handleDelete} className={`fas fa-times`} />
-                        </OwnedCard>
-                    )
-                }else{
-                    return <CardHeader>{props.joke.question}</CardHeader>
-                }
-            }catch{
-                alert('an error has occoured.. try again in a little bit..')
+
+    const checkOwnership = () => {
+        if (!isPublic) {
+            const logged_in_user = localStorage.getItem('logged_in_user')
+            if (joke_owner === logged_in_user) {
+                return (
+                    <OwnedCard>
+                        <CardHeader>{`"${joke.question}"`}</CardHeader>
+                        <CloseButton id={joke.id} onClick={handleDelete} className={`fas fa-edit`} />
+                        <CloseButton id={joke.id} onClick={handleDelete} className={`fas fa-times`} />
+                    </OwnedCard>
+                )
+            } else {
+                return <CardHeader>{`"${joke.question}"`}</CardHeader>
+
             }
+
         } else {
-            return <CardHeader>{props.joke.question}</CardHeader>
+            return <CardHeader>{`"${joke.question}"`}</CardHeader>
         }
 
 
@@ -58,7 +55,7 @@ const JokeCard = props => {
     const tl = new TimelineMax()
     const Open = () => {
         return tl.add(
-            TweenMax.from(answerRef, 1, { opacity: 0, x: '-100%', ease: Elastic.easeOut.config(1, 1) })
+            TweenMax.from(answerRef, 1.5, { opacity: 0, ease: Elastic.easeOut.config(1, 1) })
         )
     }
     useEffect(() => {
@@ -71,11 +68,13 @@ const JokeCard = props => {
 
     return (
         <Card ref={el => cardRef = el}>
-            {checkOwner()}
+            <CardHeader>{`${joke.joke_owner} asks..`}</CardHeader>
+            {checkOwnership()}
             <CardButtons>
 
                 <Icon onClick={() => { }} className={`fas fa-thumbs-up`} />
                 <Icon onClick={() => { }} className={`fas fa-thumbs-down`} />
+                <ChatterButton icon='heart' joke={joke} saveJoke={saveJoke}/>
 
                 <CardButton onClick={() => {
                     if (!open) {
@@ -85,9 +84,15 @@ const JokeCard = props => {
                 }}><i className='fas fa-question' /></CardButton>
 
             </CardButtons>
-            <Answer ref={el => answerRef = el} className={`answer ${!open ? 'closed' : ''}`} >{props.joke.answer}</Answer>
+            <Answer ref={el => answerRef = el} className={`answer ${!open ? 'closed' : ''}`}> {joke.answer}</Answer>
         </Card>
     )
 }
-
-export default JokeCard
+const mapStateTo = (state) => {
+    return {
+        data: state.dataReducer
+    }
+}
+export default connect(mapStateTo, {
+    deleteJoke, saveJoke
+})(JokeCard)

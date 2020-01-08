@@ -1,8 +1,9 @@
 import { LOG_IN_START, LOG_IN_SUCCESS, LOG_IN_FAILED } from "../actions"
 
 const init = {
-    user_id: 1,
-    isLoggedIn: false
+    logged_in_user:"",
+    isLoggedIn: false,
+    err:''
 }
 
 export function logReducer(state = init, action) {
@@ -14,15 +15,16 @@ export function logReducer(state = init, action) {
             }
         case LOG_IN_SUCCESS:
             return {
-                user_id: action.payload,
+                logged_in_user: action.payload,
                 isLoggedIn: true
             }
         case LOG_IN_FAILED:
             return {
                 ...state,
-                isLoggedIn: false
+                isLoggedIn: false,
+                err:action.payload
             }
         default:
-            return state
+           return state
     }
 }

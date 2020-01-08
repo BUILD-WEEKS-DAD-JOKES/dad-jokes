@@ -9,6 +9,7 @@ import Register from './components/register'
 import JokeBoard from './components/jokeboard'
 import NewJokeButton from './components/sub/newJokeButton'
 import JokeForm from './components/jokeform'
+import SavedJokes from './components/savedJokes'
 import CSSPlugin from 'gsap/CSSPlugin'
 
 const C = CSSPlugin
@@ -22,6 +23,7 @@ function App() {
       <Route path='/joke-board/new-joke' component={JokeForm} />
       <Route exact path='/' component={Landing} />
       <Route exact path='/joke-board' component={NewJokeButton} />
+      {/* <Route exact path='/joke-board' component={SavedJokes} /> */}
       <PrivateRoute path='/joke-board' component={JokeBoard} />
     </div>
   );

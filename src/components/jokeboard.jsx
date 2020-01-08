@@ -1,43 +1,47 @@
 import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
 import AxiosWithAuth from '../util/AxiosWithAuth'
 import JokeCard from './jokecard'
-import { TimelineMax,TweenMax,Power1 } from 'gsap/gsap-core'
+import { connect } from 'react-redux'
+import { getData } from '../store/actions'
+import { LoadingBar, Board, List } from '../style/GlobalStyles'
+import Loader from 'react-loader-spinner'
+import SavedJokes from './savedJokes'
+const JokeBoard = ({ data, getData }) => {
 
-const JokeBoard = () => {
-    const [jokes, setJokes] = useState([])
+    const { isFetching, isDeleting, isAdding, isUpdating, jokes } = data
+
     const getJokes = () => {
-        AxiosWithAuth().get('/jokes/all')
-            .then(res => {
-                setJokes(res.data)
-            }).catch((err) => {
-                alert(JSON.stringify(err), 'here boss...')
-            })
-
+        getData(true)
     }
     useEffect(() => {
         getJokes()
-       
-    }, [])
- 
+    }, [isDeleting, isAdding, isUpdating])
 
-    if(jokes.length> 0)
-    return (
-        <>
-            {jokes.map(
-                joke => {
-                    return <JokeCard id={joke.joke_owner} key={joke.id} joke={joke} />
 
-                }
-            )
-            }
-        </>
+    if (isFetching) return (
+        <LoadingBar>
+            <Loader type='Bars' color='#34b6e1' height='200px' width='200px' />
+        </LoadingBar>
     )
-    else return(
-        <>
-        <h1>Loading...</h1>
-        </>
+
+    return (
+        <Board>
+            <List>
+                {jokes.map(
+                    joke => {
+                        return <JokeCard joke_owner={joke.joke_owner} key={joke.id} joke={joke} />
+                    }).reverse()
+                }
+            </List>
+            <SavedJokes />
+        </Board>
     )
 }
-
-export default JokeBoard
+const _props = (store) => {
+    return {
+        data: store.dataReducer
+    }
+}
+export default connect(_props, {
+    getData
+})(JokeBoard)
