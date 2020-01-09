@@ -5,9 +5,11 @@ import { getSavedJokes } from '../store/actions'
 const SavedJokes = ({ data, getSavedJokes }) => {
 
     const { saved_jokes, isSaving } = data
+    
     useEffect(() => {
         getSavedJokes()
     }, [isSaving])
+
     return (
         <Sideboard>
             <SideboardTitle> Favorites:</SideboardTitle>
@@ -16,7 +18,9 @@ const SavedJokes = ({ data, getSavedJokes }) => {
                     return (
                         <SavedCard>
                             <p>{joke.question}</p>
-                            <CloseButton className='fas fa-trash'/>
+                            <CloseButton onClick={()=>{
+                                
+                            }} className='fas fa-trash'/>
                         </SavedCard>)
                 })}
             </SavedList>

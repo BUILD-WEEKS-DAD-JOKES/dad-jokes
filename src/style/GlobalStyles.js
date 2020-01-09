@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 export const Form = styled.form`
+
 z-index:3;
 position:fixed;
 right:200px;
@@ -16,7 +17,11 @@ border-radius:10px;
 box-shadow:100px 100px 1000px  rgba(100,100,100,.4),
 -100px -100px 1000px  rgba(100,100,100,.4);
 
-
+@media (max-width: 500px) {
+     width:80%; 
+     position:unset;
+     right:0;
+  }
 `
 
 export const Icon = styled.i`
@@ -45,6 +50,7 @@ font-size:1rem;
 color:slategrey;
 margin:5px;
 width:100%;
+
 `
 
 export const Checkbox = styled.input`
@@ -52,10 +58,16 @@ align-self:center;
 `
 export const Label = styled.label`
 display:flex;
+flex-flow:row wrap;
 width:100%;
 p{
 width:10%;
 }
+@media (max-width: 500px) {
+    p{
+        width:100%;
+    }
+ }
 `
 export const CloseButton = styled.i`
 color:lightgrey;
@@ -87,11 +99,14 @@ background:#34b6e1;
 
 export const Board = styled.div`
 display:flex;
-flex-flow:row-wrap;
+flex-flow:row wrap;
+width:100%;
 `
 export const List = styled.div`
 width:80%;
-
+@media(max-width:500px){
+    width:100%;
+}
 `
 export const Card = styled.div`
 margin:1rem;
@@ -103,7 +118,7 @@ border-radius:10px;
 color:grey;
 padding:10px;
 .answer.closed{
-display:none;
+    display:none;
 }
 
 `
@@ -115,6 +130,9 @@ height:50vh;
 margin:1rem;
 background:white;
 border-radius:10px;
+@media(max-width:500px){
+    width:100%;
+}
 `
 
 export const SideboardTitle = styled.p`
@@ -135,6 +153,7 @@ overflow:auto;
 p{
     padding:10px;
 }
+
 `
 
 export const SavedCard = styled.div`
@@ -156,6 +175,7 @@ padding:10px;
 border:1px solid rgba(100,100,100,.2);
 `
 export const JokeButton = styled(Link)`
+z-index:10;
 position:fixed;
 right:25px;
 bottom:25px;

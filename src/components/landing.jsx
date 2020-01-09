@@ -5,14 +5,15 @@ import { getData } from '../store/actions'
 import { LoadingBar } from '../style/GlobalStyles'
 import Loader from 'react-loader-spinner'
 
-const Landing = ({data, getData}) => {
+const Landing = ({data, getData, isAdding, isSaving, isUpdating}) => {
 
     const { jokes, isFetching } = data
 
     useEffect(() => {
         getData(false)
-    }, [])
-
+    }, [isAdding, isUpdating, isSaving])
+   
+   
     if (isFetching) 
         return (
         <LoadingBar>
