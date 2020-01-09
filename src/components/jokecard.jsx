@@ -72,8 +72,8 @@ const JokeCard = ({ isPublic, joke_owner, joke, deleteJoke, saveJoke }) => {
             {checkOwnership()}
             <CardButtons>
 
-                <Icon onClick={() => { }} className={`fas fa-thumbs-up`} />
-                <Icon onClick={() => { }} className={`fas fa-thumbs-down`} />
+                <ChatterButton icon='thumbs-up' joke={joke} />
+                <ChatterButton icon='thumbs-down' joke={joke}/>
                 <ChatterButton icon='heart' joke={joke} saveJoke={saveJoke}/>
 
                 <CardButton onClick={() => {

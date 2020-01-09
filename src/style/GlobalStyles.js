@@ -1,27 +1,29 @@
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 export const Form = styled.form`
-
 z-index:3;
-position:fixed;
-right:200px;
+padding:1rem;
+justify-content:flex-end;
+margin:0 auto;
 display:flex;
 flex-flow:row wrap;
-margin:0 auto;
-margin-top:10%;
-justify-content:flex-end;
-width:70%;
-padding:1rem;
 background:whitesmoke;
-border-radius:10px;
 box-shadow:100px 100px 1000px  rgba(100,100,100,.4),
 -100px -100px 1000px  rgba(100,100,100,.4);
+border-radius:10px;
+    @media(min-width:1000px){
+        margin-top:15%;
+        width:70%;
+    }
+    @media (max-width: 800px) {
+        margin-top:25%;
+        width:80%; 
+     }
+    @media (max-width: 500px) {
+        margin-top:35%;
+     width:90%; 
+    }
 
-@media (max-width: 500px) {
-     width:80%; 
-     position:unset;
-     right:0;
-  }
 `
 
 export const Icon = styled.i`
@@ -103,7 +105,12 @@ flex-flow:row wrap;
 width:100%;
 `
 export const List = styled.div`
-width:80%;
+@media(min-width:1000px){
+    width:80%;
+}
+@media(max-width:800px){
+    width:70%;
+}
 @media(max-width:500px){
     width:100%;
 }
@@ -130,9 +137,13 @@ height:50vh;
 margin:1rem;
 background:white;
 border-radius:10px;
+@media(max-width:800px){
+    width:25%;
+}
 @media(max-width:500px){
     width:100%;
 }
+
 `
 
 export const SideboardTitle = styled.p`

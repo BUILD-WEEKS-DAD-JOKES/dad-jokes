@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import logo from '../media/logo.svg'
 const Navigation = () => {
     const Nav = styled.div`
+        // width:100vw;
         display:flex;
         align-items:center;
         justify-content:space-between;
