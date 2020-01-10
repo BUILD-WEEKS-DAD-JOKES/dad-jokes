@@ -7,6 +7,7 @@ import { Icon, CardButtons, CloseButton, OwnedCard } from '../style/GlobalStyles
 import { connect } from 'react-redux'
 import { deleteJoke, saveJoke } from '../store/actions'
 import ChatterButton from './sub/ChatterButton'
+import { Link } from 'react-router-dom'
 
 const JokeCard = ({ isPublic, joke_owner, joke, deleteJoke, saveJoke }) => {
 
@@ -24,8 +25,6 @@ const JokeCard = ({ isPublic, joke_owner, joke, deleteJoke, saveJoke }) => {
             return
         }
     }
-
-
     const checkOwnership = () => {
         if (!isPublic) {
             const logged_in_user = localStorage.getItem('logged_in_user')
@@ -33,7 +32,9 @@ const JokeCard = ({ isPublic, joke_owner, joke, deleteJoke, saveJoke }) => {
                 return (
                     <OwnedCard>
                         <CardHeader>{`"${joke.question}"`}</CardHeader>
-                        <CloseButton id={joke.id} onClick={handleDelete} className={`fas fa-edit`} />
+                        <Link to={`/joke-board/edit/${joke.id}`}>
+                            <CloseButton id={joke.id} className={`fas fa-edit`} />
+                        </Link>
                         <CloseButton id={joke.id} onClick={handleDelete} className={`fas fa-times`} />
                     </OwnedCard>
                 )
@@ -73,8 +74,8 @@ const JokeCard = ({ isPublic, joke_owner, joke, deleteJoke, saveJoke }) => {
             <CardButtons>
 
                 <ChatterButton icon='thumbs-up' joke={joke} />
-                <ChatterButton icon='thumbs-down' joke={joke}/>
-                <ChatterButton icon='heart' joke={joke} saveJoke={saveJoke}/>
+                <ChatterButton icon='thumbs-down' joke={joke} />
+                <ChatterButton icon='heart' joke={joke} saveJoke={saveJoke} />
 
                 <CardButton onClick={() => {
                     if (!open) {

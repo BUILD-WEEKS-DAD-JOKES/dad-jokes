@@ -5,19 +5,19 @@ import { TimelineMax, Power1, TweenMax, Elastic } from 'gsap'
 import { connect } from 'react-redux'
 import { loginUser } from '../store/actions'
 
-const Login = (props) => {
+const Login = ({history, loginUser}) => {
     const { register, handleSubmit } = useForm()
     //--Logic 
     const onSubmit = (data) => {
     
-        props.loginUser(data)
+        loginUser(data)
         setTimeout(()=>{
-            props.history.push('/joke-board')
-        }, 1000)
+            history.push('/joke-board')
+        }, 1200)
         
     }
 
-
+    //#region GSAP
     let formRef = useRef(null)
     const tl = new TimelineMax()
     useEffect(() => {
@@ -56,6 +56,7 @@ const Login = (props) => {
                 }
             ))
     }, [])
+    //#endregion
 
 
     return (

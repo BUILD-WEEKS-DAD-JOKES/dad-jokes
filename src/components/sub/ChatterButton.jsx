@@ -27,7 +27,8 @@ const ChatterButton = ({ data, joke, saveJoke, icon, log }) => {
         })
     }, [])
     const isLoggedIn = localStorage.getItem('isLoggedIn')
-    if (isLoggedIn === true)
+
+    if (isLoggedIn)
         return <Icon onClick={handleClick} disabled={disabled} className={`fas fa-${icon} ${disabled ? 'disabled' : ''}`} />
     else
         return null

@@ -13,7 +13,10 @@ import {
     FETCH_SAVED_JOKE_FAILED,
     SAVE_JOKE_START,
     SAVE_JOKE_SUCCESS,
-    SAVE_JOKE_FAILED
+    SAVE_JOKE_FAILED,
+    EDIT_JOKE_START,
+    EDIT_JOKE_FAILED,
+    EDIT_JOKE_SUCCESS
 } from '../actions'
 
 const inital = {
@@ -124,6 +127,23 @@ export const dataReducer = (state = inital, action) => {
                 ...state,
                 isSaving: false,
                 save_err:action.payload
+            }
+        //#endregion
+        //#region EDIT
+        case EDIT_JOKE_START:
+            return {
+                ...state,
+                isUpdating:true
+            }
+        case EDIT_JOKE_SUCCESS:
+            return {
+                ...state, 
+                isUpdating:false
+            }
+        case EDIT_JOKE_FAILED:
+            return {
+                ...state,
+                isUpdating:false
             }
         //#endregion
 

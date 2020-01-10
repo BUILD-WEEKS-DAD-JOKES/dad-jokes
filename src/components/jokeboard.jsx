@@ -13,6 +13,7 @@ const JokeBoard = ({ data, getData }) => {
     const getJokes = () => {
         getData(true)
     }
+    
     useEffect(() => {
         getJokes()
     }, [isDeleting, isAdding, isUpdating])

@@ -137,3 +137,18 @@ export const saveJoke = (username, joke) => dispatch => {
             dispatch({ type: SAVE_JOKE_FAILED, payload: err.messege })
         })
 }
+
+export const EDIT_JOKE_START = 'EDIT_JOKE_START'
+export const EDIT_JOKE_SUCCESS = 'EDIT_JOKE_FAILED'
+export const EDIT_JOKE_FAILED = 'EDIT_JOKE_FAILED'
+
+export const editJoke = (joke_id, changes) => dispatch => {
+    dispatch({ type: EDIT_JOKE_START })
+    AxiosWithAuth().put(`/jokes/${joke_id}`, changes)
+        .then((res) => {
+            dispatch({ type: EDIT_JOKE_SUCCESS, payload: res.data})
+        })
+        .catch((err) => {
+            dispatch({ type: EDIT_JOKE_FAILED, payload: err.messege })
+        })
+}
